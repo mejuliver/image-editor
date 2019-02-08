@@ -3,19 +3,19 @@ simple image editor that uses camanjs plugin for your web projects
 
 to start, include assets/css/image-editor.min.css and then add camanjs
 
-``
+```
 <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
-``
+```
 
 then add also the assets/js/image-editor.min.js then initialize the plugin
 
-``
+```
 var image_editor = new cnimage_editor({ el : '< element id>' });
-``
+```
 
 available options:
 
-``
+```
 {
 	el : '< element id >',
 	image_editor : '< true/false to disable image editing capability >',
@@ -35,4 +35,4 @@ available options:
 	resize_maxwidth : '< initial max width of the crop box >',
 	resize_maxheight : '< initial max height of the crop box >',
 }
-``
+```
