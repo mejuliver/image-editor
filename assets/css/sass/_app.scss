@@ -1,0 +1,26 @@
+@import "compass/css3";
+@import 'components/mixins/responsive';
+@import 'components/mixins/box_shadow';
+@import 'components/mixins/divider';
+@import 'components/mixins/flex';
+@import 'components/mixins/gradient';
+@import 'components/mixins/radius';
+@import 'components/mixins/animation';
+
+$font-opensans : 'Open Sans', sans-serif;
+$font-raleway : 'Raleway', sans-serif;
+$font-playfair : 'Playfair', sans-serif;
+$font-tinos : 'Tinos', sans-serif;
+
+$color-orange : #ff9b3c;
+$color-green : #94d60a;
+$color-black : #000;
+$color-dark : #555555;
+
+$xs : '<=767px';
+$sm : '>=768px','<=991px';
+$md : '>=992px','<=1199px';
+$lg : '>=1200px';
+
+$color-primary : $color-green;
+$color-secondary : $color-orange;

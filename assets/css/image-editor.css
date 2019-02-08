@@ -1,0 +1,174 @@
+/* line 2, sass/image-editor.scss */
+#image-editor-modal {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background: #555;
+}
+/* line 15, sass/image-editor.scss */
+#image-editor-modal #image-editor-body #image-editor-toolbox {
+  display: table;
+  width: 100%;
+  padding: 10px 24px;
+  background: #FFF;
+}
+/* line 21, sass/image-editor.scss */
+#image-editor-modal #image-editor-body #image-editor-toolbox ul li {
+  position: relative;
+}
+/* line 23, sass/image-editor.scss */
+#image-editor-modal #image-editor-body #image-editor-toolbox ul li .toolbox {
+  padding: 5px 8px;
+  border: 1px solid #555;
+  color: #555;
+  display: table;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+/* line 29, sass/image-editor.scss */
+#image-editor-modal #image-editor-body #image-editor-toolbox ul li .toolbox:hover {
+  background: #242424;
+  color: #FFF;
+  box-shadow: 0 10px 40px -6px rgba(0, 0, 0, 0.1);
+}
+/* line 35, sass/image-editor.scss */
+#image-editor-modal #image-editor-body #image-editor-toolbox ul li .toolbox-sub {
+  background: #FFF;
+  display: none;
+  position: absolute;
+  width: 200px;
+  padding: 8px;
+  background: #FFF;
+  border: 1px solid #ededed;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 20;
+  box-shadow: 0 10px 40px -6px rgba(0, 0, 0, 0.1);
+}
+/* line 48, sass/image-editor.scss */
+#image-editor-modal #image-editor-body #image-editor-toolbox ul li .toolbox-sub * {
+  font-size: 12px;
+  color: #242424;
+}
+
+/* line 58, sass/image-editor.scss */
+#image-editor-body, .image-editor-wrapper {
+  position: relative;
+}
+
+/* line 61, sass/image-editor.scss */
+.image-editor-wrapper {
+  background: #cdcdcd;
+}
+/* line 63, sass/image-editor.scss */
+.image-editor-wrapper:hover canvas {
+  opacity: .6;
+}
+
+/* line 67, sass/image-editor.scss */
+#image-editor-canvas {
+  background: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* line 72, sass/image-editor.scss */
+#image-editor-canvas #canvas-holder {
+  position: relative;
+  overflow: hidden;
+}
+/* line 76, sass/image-editor.scss */
+#image-editor-canvas canvas {
+  max-height: 100%;
+  max-width: 100%;
+  width: 100%;
+  margin: 0px auto;
+}
+
+/* line 84, sass/image-editor.scss */
+.image-editor-tools {
+  top: 10px;
+  position: absolute;
+  left: 10px;
+  z-index: 99;
+}
+
+/* line 90, sass/image-editor.scss */
+.image-editor-browse, .image-editor-edit, .image-editor-delete {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #FFF;
+  color: #FFF;
+  float: left;
+  margin: 3px;
+  display: none;
+}
+/* line 98, sass/image-editor.scss */
+.image-editor-browse:hover, .image-editor-edit:hover, .image-editor-delete:hover {
+  background: #242424;
+  color: #FFF;
+  border-color: #242424;
+  box-shadow: 0 10px 40px -6px rgba(0, 0, 0, 0.1);
+}
+/* line 104, sass/image-editor.scss */
+.image-editor-browse:active, .image-editor-browse:visited, .image-editor-edit:active, .image-editor-edit:visited, .image-editor-delete:active, .image-editor-delete:visited {
+  border: 1px solid #FFF;
+  color: #FFF;
+}
+
+/* line 111, sass/image-editor.scss */
+.image-editor-edit {
+  left: 10px;
+}
+
+/* line 114, sass/image-editor.scss */
+#crop-box {
+  position: absolute;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px dashed #FFF;
+  touch-action: none;
+  user-select: none;
+  top: 0px;
+  left: 0px;
+  resize: both;
+}
+
+/* line 126, sass/image-editor.scss */
+#image-editor-modal #image-editor-canvas {
+  touch-action: none;
+  overflow: hidden;
+  position: relative;
+}
+
+/* line 131, sass/image-editor.scss */
+.image-editor-preview {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+/* line 136, sass/image-editor.scss */
+#clone-img {
+  visibility: hidden;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+  overflow: hidden;
+}
+/* line 143, sass/image-editor.scss */
+#clone-img img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
