@@ -1,7 +1,5 @@
 <?php
-	echo '<pre>';
-	print_r($_POST);
-	exit;
+
 	function save_base64_image($base64_image_string, $output_file_without_extension, $path_with_end_slash="" ) {
 	    $splited = explode(',', substr( $base64_image_string , 5 ) , 2);
 	    $mime=$splited[0];
@@ -20,8 +18,14 @@
 	    file_put_contents( $path_with_end_slash . $output_file_with_extension, base64_decode($data) );
 	    return $output_file_with_extension;
 	}
-	$id = $_POST['filename'];
-	save_base64_image($_POST['image'][0], $id, __DIR__."/img/" );
+	
+	echo '<pre>';
+	foreach( $_POST['image'] as $img ){
+		if( $img['contents'] != '' ){
+			$id = $img['filename'];
+			save_base64_image($img['contents'], $id, __DIR__."/img/" );
+		}
+	}
 
 	echo '<a href="index.php">Go back to editor</a><br /><br />';
 

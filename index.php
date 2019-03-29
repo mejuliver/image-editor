@@ -15,7 +15,7 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<form action="server.php" method="post">
-						<div class="image-editor-wrapper" id="image-editor" data-default="image.jpg"></div>
+						<div class="image-editor-wrapper" id="image-editor" data-default="image.jpg" style="position:relative; overflow:hidden;"></div>
 						<div class="image-editor-wrapper" id="image-editor2"></div>
 						<button>Submit</button>
 					</form>
@@ -26,7 +26,7 @@
 
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
-	<script src="assets/js/image-editor.min.js"></script>
+	<script src="assets/js/image-editor.js"></script>
 	<script>
 		const $image_editor = new cnimage_editor({
 			el : '#image-editor'
