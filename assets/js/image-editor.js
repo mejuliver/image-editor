@@ -77,12 +77,9 @@ function cnimage_editor($options){
 
 		if( $editor.querySelector('input.filetype') == null && $editor.querySelector('input.filename') == null && $editor.querySelector('input.image-src') == null ){
 
-			if( $editor.getAttribute('data-default') != null  && $image_editor ){
-				$default_canvas = '<img src="'+$editor.getAttribute('data-default')+'">';
-			}
 			
 			// build editor structure
-			$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filetype]" class="filetype"><input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input class="file-browse" type="file" accept="image/x-png,image/jpeg" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview">'+$default_canvas+'</div>';
+			$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filetype]" class="filetype"><input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input class="file-browse" type="file" accept="image/x-png,image/jpeg" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
 			// -- end editor structure
 		}
 
@@ -183,17 +180,12 @@ function cnimage_editor($options){
 
 				if( $image_editor ){
 
-					// load the canvas
-
-					if( this.closest('.image-editor').getAttribute('data-default') != null ){
-
-						$global.displayImageModal(this.closest('.image-editor').getAttribute('data-default'),true);
-
-					}else{
-
+					if( document.querySelector('.image-editor.active input.file-browse').value  != '' ){
 						$global.displayImageModal(document.querySelector('.image-editor.active input.file-browse'),false);
-
+					}else{
+						$global.displayImageModal(document.querySelector('.image-editor.active input.image_src').value,true);
 					}
+					
 
 				}else{
 
@@ -1134,7 +1126,6 @@ function cnimage_editor($options){
 
 			$canvas.style.display = 'block';
 
-			document.querySelector('.image-editor.active').removeAttribute('data-default');
 
 		  }
 
@@ -1233,7 +1224,6 @@ function cnimage_editor($options){
 			var $reader = new FileReader();
 
 
-
 			$reader.onload = function(e){
 
 				var el = document.createElement('div');
@@ -1322,15 +1312,8 @@ function cnimage_editor($options){
 
 		document.querySelector('#image-editor-modal #image-editor-crop').closest('li').style.display = 'block';
 
-		if( document.querySelector('.image-editor.active').getAttribute('data-default') != null ){
+		$global.displayImageModal(document.querySelector('.image-editor.active input.file-browse'),false);
 
-			$global.displayImageModal(document.querySelector('.image-editor.active').getAttribute('data-default'),true);
-
-		}else{
-
-			$global.displayImageModal(document.querySelector('.image-editor.active input.file-browse'),false);
-
-		}
 
 	}
 
