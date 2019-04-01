@@ -20,6 +20,7 @@ available options:
 	el : '< element id >',
 	image_editor : '< true/false to disable image editing capability >',
 	browseFunct : '< function name, to be run after the browse button is clicked >',
+	displayImageFunct : '< function name, to be run after display image was called >',
 	editFunct : '< function name, to be run after the edit button is clicked >',
 	deleteFunct : '< function name, to be run after the delete button is clicked >',
 	saveFunct : '< function name, to be run after the save button is clicked >',

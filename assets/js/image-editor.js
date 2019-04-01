@@ -8,6 +8,8 @@ function cnimage_editor($options){
 
 	const $browseFunct = ( $options != undefined && $options.browseFunct != undefined ) ? $options.browseFunct : false;
 
+	const $displayImageFunct = ( $options != undefined && $options.displayImageFunct != undefined ) ? $options.displayImageFunct : false;
+
 	const $editFunct = ( $options != undefined && $options.editFunct != undefined ) ? $options.editFunct : false;
 
 	const $deleteFunct = ( $options != undefined && $options.deleteFunct != undefined ) ? $options.deleteFunct : false;
@@ -17,8 +19,6 @@ function cnimage_editor($options){
 	const $resetFunct = ( $options != undefined && $options.resetFunct != undefined ) ? $options.resetFunct : false;
 
 	const $closeFunct = ( $options != undefined && $options.closeFunct != undefined ) ? $options.closeFunct : false;
-
-
 
 	const $global = this;
 
@@ -60,62 +60,50 @@ function cnimage_editor($options){
 	this.init = function(){
 
 		if( document.querySelector('#image-editor-modal') == null && $image_editor ){
-
 			this.initModalEditor();
-
 		}
 
 		// add height and width to editor		
-
 		$editor.style.width = $editor_width+'px';
-
 		$editor.style.height = $editor_height+'px';
-
 		// -- end height and width editor
-
-
-
-		
 
 		$editor.classList.add('image-editor'); // classes for the editor
 
 
-
 		let $default_canvas = '';
-
-		if( $editor.getAttribute('data-default') != null ){
-
-			$default_canvas = '<img src="'+$editor.getAttribute('data-default')+'">';
-
-		}
 
 		var $id =  document.querySelectorAll('.image-editor').length -1;
 
-		// build editor structure
+		if( $editor.querySelector('input.filetype') == null && $editor.querySelector('input.filename') == null && $editor.querySelector('input.image-src') == null ){
 
-		$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input class="file-browse" type="file" accept="image/x-png,image/jpeg" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview">'+$default_canvas+'</div>';
-
-		// -- end editor structure
-
-
+			if( $editor.getAttribute('data-default') != null  && $image_editor ){
+				$default_canvas = '<img src="'+$editor.getAttribute('data-default')+'">';
+			}
+			
+			// build editor structure
+			$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filetype]" class="filetype"><input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input class="file-browse" type="file" accept="image/x-png,image/jpeg" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview">'+$default_canvas+'</div>';
+			// -- end editor structure
+		}
 
 		$editor.querySelector('.image-editor-browse').style.display = 'flex'; // show the browse button
 
-		if( $editor.getAttribute('data-default') != null  && $image_editor ){
+		if( $editor.querySelector('input.filetype') != '' && $editor.querySelector('input.filename').value != '' && $editor.querySelector('input.image_src').value != '' ){
 
 			$editor.querySelector('.image-editor-edit').style.display = 'flex';
-
 			$editor.querySelector('.image-editor-delete').style.display = 'flex';
 
+			document.querySelectorAll('.image-editor').forEach(function(el){
+				el.classList.remove('active');
+			});
+			$editor.classList.add('active');
+
+			this.displayImage(false, $editor.querySelector('input.image_src').value );
+
 		}else{
-
 			$editor.querySelector('.image-editor-edit').style.display = 'none';
-
 			$editor.querySelector('.image-editor-delete').style.display = 'none';
-
 		}
-
-
 
 		// browse button click event
 
@@ -225,7 +213,7 @@ function cnimage_editor($options){
 
 			if( $editFunct ){
 
-				window[$editFunct]();
+				window[$editFunct](document.querySelector('.image-editor.active'));
 
 			}
 
@@ -291,7 +279,7 @@ function cnimage_editor($options){
 
 			if( $deleteFunct ){
 
-				window[$deleteFunct]();
+				window[$deleteFunct](document.querySelector('.image-editor.active'));
 
 			}
 
@@ -333,7 +321,6 @@ function cnimage_editor($options){
 
 	}
 
-	// -- to be updated
 
 	this.cropCanvas = function(){
 
@@ -498,7 +485,7 @@ function cnimage_editor($options){
 
 			if( $saveFunct ){
 
-				window[$saveFunct]();
+				window[$saveFunct](document.querySelector('.image-editor.active'));
 
 			}
 
@@ -634,7 +621,7 @@ function cnimage_editor($options){
 
 			if( $resetFunct ){
 
-				window[$resetFunct]();
+				window[$resetFunct](document.querySelector('.image-editor.active'));
 
 			}
 
@@ -1044,67 +1031,68 @@ function cnimage_editor($options){
 
 	// when click browse, display image
 
-	this.displayImage = function($el){
+	this.displayImage = function($el,$base64){
 
-		if ($el.files && $el.files[0]) {
-
-
-
-			// always remove existing canvas
-
-			if( document.querySelector('.image-editor.active canvas') != null ){
-
-				document.querySelector('.image-editor.active canvas').remove();
-
+		var $base64 = ( $base64 != undefined ) ? $base64 : false;
+		if( !$base64){
+			if ( $el.files == undefined && !$el.files[0] == undefined ) {
+				return false;
 			}
-
-			if( document.querySelector('.image-editor.active img') != null ){
-
-				document.querySelector('.image-editor.active img').remove();
-
-			}
+		}
 
 
 
-			// append a default canvas
+		// always remove existing canvas
 
-			let $canvas = document.createElement('canvas');
+		if( document.querySelector('.image-editor.active canvas') != null ){
 
-			$canvas.style.display = 'none';
+			document.querySelector('.image-editor.active canvas').remove();
 
-			document.querySelector('.image-editor.active .image-editor-preview').appendChild($canvas);
+		}
 
-			// -- end append default canvas
+		if( document.querySelector('.image-editor.active img') != null ){
 
+			document.querySelector('.image-editor.active img').remove();
 
-
-	    	let $ctx = document.querySelector('.image-editor.active canvas').getContext('2d');
-
-			let $img = new Image;
-
-			$img.crossOrigin = 'anonymous';
+		}
 
 
 
+		// append a default canvas
+
+		let $canvas = document.createElement('canvas');
+
+		$canvas.style.display = 'none';
+
+		document.querySelector('.image-editor.active .image-editor-preview').appendChild($canvas);
+
+		// -- end append default canvas
 
 
-			$img.onload = function() {
+
+    	let $ctx = document.querySelector('.image-editor.active canvas').getContext('2d');
+
+		let $img = new Image;
+
+		$img.crossOrigin = 'anonymous';
 
 
 
-				$ctx.canvas.width = this.width;
 
-			    $ctx.canvas.height = this.height;
+		$img.onload = function() {
 
-			    $ctx.drawImage($img,0,0);
 
-			      
+			$ctx.canvas.width = this.width;
+
+		    $ctx.canvas.height = this.height;
+
+		    $ctx.drawImage($img,0,0);
+
+			if( !$base64){
 
 			    let $x = ( this.width- $cropboxsave_width ) / 2;
 
 				let $y = ( this.height - $cropboxsave_height ) / 2;
-
-
 
 				Caman(".image-editor.active canvas", function () {
 
@@ -1120,39 +1108,43 @@ function cnimage_editor($options){
 
 			    		document.querySelector('.image-editor.active input.filename').value = $el.files[0].name;
 
+			    		document.querySelector('.image-editor.active input.filetype').value = document.querySelector('.image-editor.active input.filename').value.split('.')[1];
+
 				    });
 
+				    if( $displayImageFunct ){
+						window[$displayImageFunct](document.querySelector('.image-editor.active'));
+
+					}
+
 				});
+			}
 
-				if( document.querySelector('#image-editor-modal') != null && $image_editor ){
+			if( document.querySelector('#image-editor-modal') != null && $image_editor ){
 
-					document.querySelector('.image-editor.active .image-editor-edit').style.display = 'flex';
+				document.querySelector('.image-editor.active .image-editor-edit').style.display = 'flex';
 
-				}else{
+			}else{
 
-					document.querySelector('.image-editor.active .image-editor-edit').style.display = 'none';
+				document.querySelector('.image-editor.active .image-editor-edit').style.display = 'none';
 
-				}
+			}
 
-				document.querySelector('.image-editor.active .image-editor-delete').style.display = 'flex';
+			document.querySelector('.image-editor.active .image-editor-delete').style.display = 'flex';
 
-				$canvas.style.display = 'block';
+			$canvas.style.display = 'block';
 
-				document.querySelector('.image-editor.active').removeAttribute('data-default');
+			document.querySelector('.image-editor.active').removeAttribute('data-default');
 
-			  }
+		  }
 
-			  $img.src = URL.createObjectURL($el.files[0]);
-
-			  
-
-	  	}
-
-	
+		  	if( !$base64){
+				$img.src = URL.createObjectURL($el.files[0]);
+			}else{
+				$img.src = $base64;
+			}
 
 	}
-
-
 
 	// -- end display image on modal editor
 
