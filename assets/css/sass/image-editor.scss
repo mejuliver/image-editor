@@ -25,6 +25,9 @@
 					float:left;
 					list-style:none;
 					position:relative;
+					&:hover .toolbox-sub{
+						display: block !important;
+					}
 					.toolbox{
 						outline:none!important;
 						text-decoration:none!important;

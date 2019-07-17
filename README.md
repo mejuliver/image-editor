@@ -35,5 +35,7 @@ available options:
 	resize_minheight : '< initial min height of the crop box >',
 	resize_maxwidth : '< initial max width of the crop box >',
 	resize_maxheight : '< initial max height of the crop box >',
+	autocrop : < true/false>, // automatically crop image base on crop width and height, default to false
+	imgcache : < true/false> // cache img if image was edited, default to false
 }
 ```

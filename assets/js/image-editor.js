@@ -50,6 +50,10 @@ function cnimage_editor($options){
 		$imgcache = false;
 	}
 
+	if( !$imgcache && $storage ){
+		$storage.setItem('imgeditorcachedb',[]);
+	}
+
     let rotation = 0;
 
 
@@ -240,6 +244,9 @@ function cnimage_editor($options){
 
 			this.closest('.image-editor').querySelector('input.filename').value = '';
 
+			this.closest('.image-editor').querySelector('input.filetype').value = '';
+
+
 
 			if( $imgcache ){ // delete from web storage if option enabled
 
@@ -301,37 +308,29 @@ function cnimage_editor($options){
 	        }   
 
 		});
-
 		// -- end editor input on change event
 
 		// check if theres an img cache
 		if( $imgcache && $storage.getItem('imgeditorcachedb') ){
 
-			var _storage = $storage.getItem('imgeditorcachedb');
+			var _storage = JSON.parse( $storage.getItem('imgeditorcachedb') );
 
 			// find the item
 			var _img = _storage.findIndex(function(i){
 				return i.index == $editor.getAttribute('data-index');
 			});
 
+			document.querySelectorAll('.image-editor').forEach(function(el){
+				el.classList.remove('active');
+			});
+
+			$editor.classList.add('active');
+
 			if( _img != -1 ){
-
-				// to be continue
-
-				var el = document.createElement('div');
-					el.classList.add('image-editor-wrapper','image-editor');
-					el.setAttribute('id', $id);
-					el.innerHTML = '<input type="hidden" name="image['+$editor.getAttribute('data-index')+'][filetype]" value="'+els.filetype+'" class="filetype"><input type="hidden" name="image['+i+'][filename]" value="'+els.filename+'" class="filename"><input type="hidden" name="image['+i+'][contents]" class="image_src" value="'+( 'data:image/'+els.filetype+';base64,'+els.filecontents )+'"><input class="file-browse" type="file" accept="image/x-png,image/jpeg" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
-					
-					document.querySelector('#image-editor-group').append(el);
-
-					const $image_editor = new cnimage_editor({
-						el : '#'+$id,
-						saveFunct : "refreshImageStorage",
-						displayImageFunct : "refreshImageStorage"
-						// deleteFunct : deleteImageStorage
-					});
-
+				$global.displayImage(false,_storage[_img].dataurl);
+				$editor.querySelector('input.filetype').value = _storage[_img].filetype;
+				$editor.querySelector('input.filename').value = _storage[_img].filename;
+				$editor.querySelector('input.image_src').value = _storage[_img].dataurl;
 			}
 		}
 
@@ -504,7 +503,9 @@ function cnimage_editor($options){
 							}else{
 								_storage.push({
 									index : document.querySelector('.image-editor.active').getAttribute('data-index'),
-									dataurl : document.querySelector('.image-editor.active input.image_src').value
+									dataurl : document.querySelector('.image-editor.active input.image_src').value,
+									filetype : document.querySelector('.image-editor.active input.filetype').value,
+									filename : document.querySelector('.image-editor.active input.filename').value
 								});
 							}
 
@@ -515,7 +516,10 @@ function cnimage_editor($options){
 
 							_storage.push({
 								index : document.querySelector('.image-editor.active').getAttribute('data-index'),
-								dataurl : document.querySelector('.image-editor.active input.image_src').value
+								dataurl : document.querySelector('.image-editor.active input.image_src').value,
+								filetype : document.querySelector('.image-editor.active input.filetype').value,
+								filename : document.querySelector('.image-editor.active input.filename').value
+
 							});
 
 							$storage.setItem('imgeditorcachedb',JSON.stringify(_storage));
@@ -701,58 +705,6 @@ function cnimage_editor($options){
 		});
 
 		// -- end resize
-
-
-
-		// modal editor toolbox
-
-		document.querySelectorAll('.toolbox-li').forEach(function($el){
-
-			$el.querySelector('a').addEventListener('click',function(e){
-
-				e.preventDefault();
-
-
-
-				if( this.closest('.toolbox-li').querySelector('.toolbox-sub') != null ){
-
-					if( $global.isHidden(this.closest('.toolbox-li').querySelector('.toolbox-sub') ) ){
-
-						document.querySelectorAll('.toolbox-sub').forEach(function($el2){
-
-							$el2.style.display = 'none';
-
-						});
-
-						this.closest('.toolbox-li').querySelector('.toolbox-sub').style.display = 'block';
-
-					}else{
-
-						document.querySelectorAll('.toolbox-sub').forEach(function($el2){
-
-							$el2.style.display = 'none';
-
-						});
-
-					}
-
-				}else{
-
-					document.querySelectorAll('.toolbox-sub').forEach(function($el2){
-
-						$el2.style.display = 'none';
-
-					});
-
-				}
-
-
-
-			});
-
-		});
-
-		// -- end modal editor toolbox
 
 	}
 
