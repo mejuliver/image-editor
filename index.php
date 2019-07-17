@@ -5,8 +5,9 @@
 	<title>Image Editor</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/j-components.min.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 	<link rel="stylesheet" href="assets/css/image-editor.css">
 </head>
 <body>
@@ -14,6 +15,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
+					<div id="image-editor"></div>
 					<form action="server.php" method="post">
 						<div id="image-editor-group">
 							<div class="image-editor-wrapper" id="image-editor" data-default="image.jpg" style="position:relative; overflow:hidden;"></div>
@@ -46,6 +48,7 @@
 				}
 			});
 		}
+
 		window.localStorage;
 
 		if( document.querySelector('#image-editor-group') == null ){
@@ -63,32 +66,33 @@
 		if( imgsCache != null){
 			
 
-			JSON.parse(imgsCache).forEach(function(els,i){
-				var $id = 'imageeditor-'+i;
-				var el = document.createElement('div');
-					el.classList.add('image-editor-wrapper','image-editor');
-					el.setAttribute('id', $id);
-					el.style.position = 'relative';
-					el.style.overfow = 'hidden';
-					el.innerHTML = '<input type="hidden" name="image['+i+'][filetype]" value="'+els.filetype+'" class="filetype"><input type="hidden" name="image['+i+'][filename]" value="'+els.filename+'" class="filename"><input type="hidden" name="image['+i+'][contents]" class="image_src" value="'+( 'data:image/'+els.filetype+';base64,'+els.filecontents )+'"><input class="file-browse" type="file" accept="image/x-png,image/jpeg" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
-				document.querySelector('#image-editor-group').append(el);
+			// JSON.parse(imgsCache).forEach(function(els,i){
+			// 	var $id = 'imageeditor-'+i;
+			// 	var el = document.createElement('div');
+			// 		el.classList.add('image-editor-wrapper','image-editor');
+			// 		el.setAttribute('id', $id);
+			// 		el.style.position = 'relative';
+			// 		el.style.overfow = 'hidden';
+			// 		el.innerHTML = '<input type="hidden" name="image['+i+'][filetype]" value="'+els.filetype+'" class="filetype"><input type="hidden" name="image['+i+'][filename]" value="'+els.filename+'" class="filename"><input type="hidden" name="image['+i+'][contents]" class="image_src" value="'+( 'data:image/'+els.filetype+';base64,'+els.filecontents )+'"><input class="file-browse" type="file" accept="image/x-png,image/jpeg" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
+			// 	document.querySelector('#image-editor-group').append(el);
 
-				const $image_editor = new cnimage_editor({
-					el : '#'+$id,
-					saveFunct : "refreshImageStorage",
-					displayImageFunct : "refreshImageStorage"
-					// deleteFunct : deleteImageStorage
-				});
+			// 	const $image_editor = new cnimage_editor({
+			// 		el : '#'+$id,
+			// 		saveFunct : "refreshImageStorage",
+			// 		displayImageFunct : "refreshImageStorage"
+			// 		// deleteFunct : deleteImageStorage
+			// 	});
 
-			});
+			// });
 
 		}else{
-			localStorage.removeItem('image_editor');
-			const $image_editor = new cnimage_editor({
-				el : '#image-editor',
-				saveFunct : "refreshImageStorage",
-				displayImageFunct : "refreshImageStorage"
-			});
+			// localStorage.removeItem('image_editor');
+			// const $image_editor = new cnimage_editor({
+			// 	el : '#image-editor',
+			// 	saveFunct : "refreshImageStorage",
+			// 	displayImageFunct : "refreshImageStorage",
+			// 	autocrop : true
+			// });
 		}
 
 		function imgtoBase64(img,ext) {
@@ -114,6 +118,12 @@
 
 	</script>
 	<script>
+		new cnimage_editor({
+			el : '#image-editor',
+			autocrop : false,
+			imgcache : true,
+			cropbox_resize : false
+		});
 		// const $image_editor = new cnimage_editor({
 		// 	el : '#image-editor'
 		// });

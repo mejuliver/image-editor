@@ -18,13 +18,23 @@
 			padding:10px 24px;
 			background:#FFF;
 			ul{
+				padding:0px;
 				li{
+					margin-right:5px;
+					margin-bottom:5px;
+					float:left;
+					list-style:none;
 					position:relative;
 					.toolbox{
+						outline:none!important;
+						text-decoration:none!important;
 						padding:5px 8px;
 					    border: 1px solid #555;
 					    color:#555;
 					    display:table;
+					    i{
+					    	margin-right:5px;
+					    }
 						@include radius('20');
 						&:hover{
 							background:#242424;
@@ -36,7 +46,7 @@
 						background:#FFF;
 						display:none;
 						position:absolute;
-						width:200px;
+						width:150px;
 						padding:8px;
 						background:#FFF;
 						border: 1px solid #ededed;
@@ -44,10 +54,18 @@
 						overflow-y:auto;
 						overflow-x:hidden;
 						z-index:20;
+						ul li{
+							clear: both!important;
+							float: none !important;
+						}
 						@include box-shadow(1);
 						*{
 							font-size:12px;
 							color:#242424;
+						}
+						input{
+							width: 100%;
+							margin-bottom: 5px;
 						}
 					}
 				}
@@ -57,7 +75,7 @@
 }
 #image-editor-body,.image-editor-wrapper{
 	position: relative;
-}
+}	
 .image-editor-wrapper{
 	background:#cdcdcd;
 	&:hover canvas{
@@ -80,12 +98,28 @@
 		margin: 0px auto;
 	}
 }
-
+.image-editor{
+	position:relative;
+	overflow: hidden;
+	background:#ededed;
+	canvas{
+    	max-height: 100%;
+		max-width: 100%;
+    }
+}
 .image-editor-tools{
 	top:10px;
 	position: absolute;
 	left: 10px;
 	z-index:99;
+	a{
+		border-radius: 5px;
+		display: flex;
+		align-items: center;
+		justify-content:center;
+		outline: none!important;
+		text-decoration: none!important;
+	}
 }
 .image-editor-browse,.image-editor-edit,.image-editor-delete{
 	width:30px;
