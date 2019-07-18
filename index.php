@@ -15,17 +15,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
-					<div id="image-editor"></div>
-					<form action="server.php" method="post">
-						<div id="image-editor-group">
-							<div class="image-editor-wrapper" id="image-editor" data-default="image.jpg" style="position:relative; overflow:hidden;"></div>
-							<br>
-							<br>
-							<div class="image-editor-wrapper" id="image-editor2" data-default="image.jpg" style="position:relative; overflow:hidden;"></div>
-						</div>
-						
-						<button>Submit</button>
-					</form>
+					<div id="image-editor"></div><br>
+					<div id="image-editor2"></div><br>
 				</div>
 			</div>
 		</div>
@@ -38,14 +29,30 @@
 	<script>
 		new cnimage_editor({
 			el : '#image-editor',
+			cropbox_resize : false,
+			cropbox_width : 300,
+			cropbox_height : 300,
 			autocrop : false,
-			imgcache : true,
+			imgcache : false,
+			width : 400,
+			height: 400,
+			cropboxsave_width : 10,
+			cropboxsave_height : 10
 		});
 
-		new cnimage_editor({
+		new cnimage_editor( {
 			el : '#image-editor2',
 			autocrop : false,
 			imgcache : true,
+			cropbox_width : 200,
+			cropbox_width : 200,
+			cropbox_resize : {
+				minwidth : 200,
+				minheight : 200,
+				maxwidth : 300,
+				maxheight : 300
+			}
+			
 		});
 
 	</script>

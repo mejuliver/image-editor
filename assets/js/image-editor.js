@@ -1,49 +1,48 @@
 function cnimage_editor($options){
 
+
 	const $storage = window.localStorage;
 
-	const $editor = ( $options != undefined && $options.el != undefined ) ? document.querySelector($options.el) : false;
+	const $editor = ( typeof $options != 'undefined' && typeof $options.el != 'undefined' ) ? document.querySelector($options.el) : false;
 
-	const $image_editor = ( $options != undefined && $options.image_editor != undefined ) ? $options.image_editor : true;
+	const $image_editor = ( typeof $options != 'undefined' && typeof $options.image_editor != 'undefined' ) ? $options.image_editor : true;
 
-	const $browseFunct = ( $options != undefined && $options.browseFunct != undefined ) ? $options.browseFunct : false;
+	const $browseFunct = ( typeof $options != 'undefined' && typeof $options.browseFunct != 'undefined' ) ? $options.browseFunct : false;
 
-	const $displayImageFunct = ( $options != undefined && $options.displayImageFunct != undefined ) ? $options.displayImageFunct : false;
+	const $displayImageFunct = ( typeof $options != 'undefined' && typeof $options.displayImageFunct != 'undefined' ) ? $options.displayImageFunct : false;
 
-	const $editFunct = ( $options != undefined && $options.editFunct != undefined ) ? $options.editFunct : false;
+	const $editFunct = ( typeof $options != 'undefined' && typeof $options.editFunct != 'undefined' ) ? $options.editFunct : false;
 
-	const $deleteFunct = ( $options != undefined && $options.deleteFunct != undefined ) ? $options.deleteFunct : false;
+	const $deleteFunct = ( typeof $options != 'undefined' && typeof $options.deleteFunct != 'undefined' ) ? $options.deleteFunct : false;
 
-	const $saveFunct = ( $options != undefined && $options.saveFunct != undefined ) ? $options.saveFunct : false;
+	const $saveFunct = ( typeof $options != 'undefined' && typeof $options.saveFunct != 'undefined' ) ? $options.saveFunct : false;
 
-	const $resetFunct = ( $options != undefined && $options.resetFunct != undefined ) ? $options.resetFunct : false;
+	const $resetFunct = ( typeof $options != 'undefined' && typeof $options.resetFunct != 'undefined' ) ? $options.resetFunct : false;
 
-	const $closeFunct = ( $options != undefined && $options.closeFunct != undefined ) ? $options.closeFunct : false;
+	const $closeFunct = ( typeof $options != 'undefined' && typeof $options.closeFunct != 'undefined' ) ? $options.closeFunct : false;
 
 	const $global = this;
 
-	const $editor_width = ( $options != undefined && $options.width != undefined ) ? $options.width : 300;
+	const $editor_width = ( typeof $options != 'undefined' && typeof $options.width != 'undefined' ) ? $options.width : 300;
 
-	const $editor_height = ( $options != undefined && $options.height != undefined ) ? $options.height : 300;
+	const $editor_height = ( typeof $options != 'undefined' && typeof $options.height != 'undefined' ) ? $options.height : 300;
 
-	const $cropbox_width = ( $options != undefined && $options.cropbox_width != undefined ) ? $options.cropbox_width : 150;
+	const $cropbox_width = ( typeof $options != 'undefined' && typeof $options.cropbox_width != 'undefined' ) ? $options.cropbox_width : 150;
+	const $cropbox_height = ( typeof $options != 'undefined' && typeof $options.cropbox_height != 'undefined' ) ? $options.cropbox_height : 150;
 
-	const $cropbox_height = ( $options != undefined && $options.cropbox_height != undefined ) ? $options.cropbox_height : 150;
+	const $cropbox_resize = ( typeof $options != 'undefined' && typeof $options.cropbox_resize != 'undefined' ) ? $options.cropbox_resize : true;
+	
+	const $cropbox_resize_minwidth = ( typeof $options != 'undefined' && $cropbox_resize && typeof $options.cropbox_resize == 'object' && typeof $options.cropbox_resize.minwidth != 'undefined' ) ? $options.cropbox_resize.minwidth : 50;
+	const $cropbox_resize_minheight = ( typeof $options != 'undefined' && $cropbox_resize && typeof $options.cropbox_resize == 'object' && typeof $options.cropbox_resize.minheight != 'undefined' ) ? $options.cropbox_resize.minheight : 50;
+	const $cropbox_resize_maxwidth = ( typeof $options != 'undefined' && $cropbox_resize && typeof $options.cropbox_resize == 'object' && typeof $options.cropbox_resize.maxwidth != 'undefined' ) ? $options.cropbox_resize.maxwidth : 800;
+	const $cropbox_resize_maxheight = ( typeof $options != 'undefined' && $cropbox_resize && typeof $options.cropbox_resize == 'object' && typeof $options.cropbox_resize.maxheight != 'undefined' ) ? $options.cropbox_resize.maxheight : 800;
 
-	const $cropboxsave_width = ( $options != undefined && $options.cropboxsave_width != undefined ) ? $options.cropboxsave_width : 200;
-	const $cropboxsave_height = ( $options != undefined && $options.cropboxsave_height != undefined ) ? $options.cropboxsave_height : 230;
+	const $autocrop = ( typeof $options != 'undefined' && typeof $options.autocrop == 'object' ) ? $options.autocrop : false;
 
-	const $cropbox_resize_minwidth = ( $options != undefined && $options.cropbox_resize != undefined && $options.cropbox_resize.minwidth ) ? $options.cropbox_resize.minwidth : 50;
+	const $cropboxsave_width = ( $autocrop && typeof $options.autocrop == 'object' && typeof $options.autocrop.width != 'undefined' ) ? $options.autocrop.width : 50;
+	const $cropboxsave_height = ( $autocrop && typeof $options.autocrop == 'object' && typeof $options.autocrop.height != 'undefined' ) ? $options.autocrop.height : 50;
 
-	const $cropbox_resize_minheight = ( $options != undefined && $options.cropbox_resize != undefined && $options.cropbox_resize.minheight ) ? $options.cropbox_resize.minheight : 50;
-
-	const $cropbox_resize_maxwidth = ( $options != undefined && $options.cropbox_resize != undefined && $options.cropbox_resize.maxwidth ) ? $options.cropbox_resize.maxwidth : 800;
-
-	const $cropbox_resize_maxheight = ( $options != undefined && $options.cropbox_resize != undefined && $options.cropbox_resize.maxheight ) ? $options.cropbox_resize.maxheight : 800;
-
-	const $autocrop = ( $options != undefined && $options.autocrop != undefined ) ? $options.autocrop : false;
-
-	const $imgcache = ( $options != undefined && $options.imgcache != undefined ) ? $options.imgcache : false;
+	const $imgcache = ( typeof $options != 'undefined' && typeof $options.imgcache != 'undefined' ) ? $options.imgcache : false;
 
 	if( $imgcache && $storage == 'undefined' ){
 		console.log('Web Storage is not supported! image caching mechanism disabled');
@@ -56,18 +55,78 @@ function cnimage_editor($options){
 
     let rotation = 0;
 
-
     if( !$editor ){
-
     	console.log('Bind an element e.g. new cnimage_editor( {  el : <element> } )');
-
     	return;
-
     }
 
+    let _editordata = document.querySelector('body').getAttribute('data-imgeditor'),
+		_editor = {};
+
+	if( _editordata ){
+		_editor = JSON.parse(_editordata);
+		_editor.push({
+			$el : $options.el,
+			$image_editor : $image_editor,
+			$browseFunct : $browseFunct,
+			$displayImageFunct : $displayImageFunct,
+			$editFunct : $editFunct,
+			$deleteFunct : $deleteFunct,
+			$saveFunct : $saveFunct,
+			$resetFunct : $resetFunct,
+			$closeFunct : $closeFunct,
+			$editor_width : $editor_width,
+			$editor_height : $editor_height,
+			$cropbox_width : $cropbox_width,
+			$cropbox_height : $cropbox_height,
+			$cropboxsave_width : $cropboxsave_width,
+			$cropboxsave_height : $cropboxsave_height,
+			$cropbox_resize : $cropbox_resize,
+			$cropbox_resize_minwidth : $cropbox_resize_minwidth,
+			$cropbox_resize_minheight : $cropbox_resize_minheight,
+			$cropbox_resize_maxwidth : $cropbox_resize_maxwidth,
+			$cropbox_resize_maxheight : $cropbox_resize_maxheight,
+			$autocrop : $autocrop,
+			$cropboxsave_width : $cropboxsave_width,
+			$cropboxsave_height : $cropboxsave_height,
+			$imgcache : $imgcache,
+			rawoptions : $options
+		});
+	}else{
+		_editor = [{
+			$el : $options.el,
+			$editor : $editor,
+			$image_editor : $image_editor,
+			$browseFunct : $browseFunct,
+			$displayImageFunct : $displayImageFunct,
+			$editFunct : $editFunct,
+			$deleteFunct : $deleteFunct,
+			$saveFunct : $saveFunct,
+			$resetFunct : $resetFunct,
+			$closeFunct : $closeFunct,
+			$editor_width : $editor_width,
+			$editor_height : $editor_height,
+			$cropbox_width : $cropbox_width,
+			$cropbox_height : $cropbox_height,
+			$cropboxsave_width : $cropboxsave_width,
+			$cropboxsave_height : $cropboxsave_height,
+			$cropbox_resize : $cropbox_resize,
+			$cropbox_resize_minwidth : $cropbox_resize_minwidth,
+			$cropbox_resize_minheight : $cropbox_resize_minheight,
+			$cropbox_resize_maxwidth : $cropbox_resize_maxwidth,
+			$cropbox_resize_maxheight : $cropbox_resize_maxheight,
+			$autocrop : $autocrop,
+			$cropboxsave_width : $cropboxsave_width,
+			$cropboxsave_height : $cropboxsave_height,
+			$imgcache : $imgcache,
+			rawoptions : $options
+		}];
+	}
+
+	document.querySelector('body').setAttribute('data-imgeditor',JSON.stringify(_editor) );
 
 
-	this.init = function(){
+	this.init = function(){		
 
 		if( document.querySelector('#image-editor-modal') == null && $image_editor ){
 			this.initModalEditor();
@@ -76,6 +135,7 @@ function cnimage_editor($options){
 		// add height and width to editor		
 		$editor.style.width = $editor_width+'px';
 		$editor.style.height = $editor_height+'px';
+
 		// -- end height and width editor
 
 		$editor.classList.add('image-editor'); // classes for the editor
@@ -429,9 +489,9 @@ function cnimage_editor($options){
 
 
 
-			let $x = ( $ref.width- $cropboxsave_width ) / 2;
+			let $x = ( $ref.width- $global.getActiveEditorOptions().$cropboxsave_width ) / 2;
 
-			let $y = ( $ref.height - $cropboxsave_height ) / 2;
+			let $y = ( $ref.height - $global.getActiveEditorOptions().$cropboxsave_height ) / 2;
 
 
 
@@ -547,7 +607,6 @@ function cnimage_editor($options){
 		// on crop
 
 		document.querySelector('#image-editor-modal #image-editor-crop').addEventListener('click',function(e){
-
 
 
 			let $el = document.createElement('div');
@@ -891,6 +950,14 @@ function cnimage_editor($options){
 	// -- end validate filesize
 
 	// resize crop box event
+	this.getActiveEditorOptions = function(){
+
+		let _data = JSON.parse(document.querySelector('body').getAttribute('data-imgeditor') );
+
+		return _data[_data.findIndex(function(i){
+			return i.$el == '#'+document.querySelector('.image-editor.active').getAttribute('id');
+		})];
+	};
 
 	this.resizeCropBox = function() {
 
@@ -920,6 +987,12 @@ function cnimage_editor($options){
 
 
 		function initDrag(e) {
+			
+			if( !$global.getActiveEditorOptions().$cropbox_resize ){
+
+				return;
+
+			}
 
 		   	if( $global.checkIfMobile() ){
 
@@ -970,28 +1043,27 @@ function cnimage_editor($options){
 			if( $global.checkIfMobile() ){
 
 
-
-				if( ( (startWidth + e.touches[0].clientX - startX) < $cropbox_resize_maxwidth ) && ( (startWidth + e.touches[0].clientX - startX) > $cropbox_resize_minwidth) ){
+				if( ( (startWidth + e.touches[0].clientX - startX) < $global.getActiveEditorOptions().$cropbox_resize_maxwidth ) && ( (startWidth + e.touches[0].clientX - startX) > $global.getActiveEditorOptions().$cropbox_resize_minwidth) ){
 
 					p.style.width = (startWidth + e.touches[0].clientX - startX) + 'px';
 
 			   	}
 
-			   	if( ( (startHeight + e.touches[0].clientY - startY) < $cropbox_resize_maxheight ) && ( (startHeight + e.touches[0].clientY - startY) > $cropbox_resize_minheight) ){
+			   	if( ( (startHeight + e.touches[0].clientY - startY) < $global.getActiveEditorOptions().$cropbox_resize_maxheight ) && ( (startHeight + e.touches[0].clientY - startY) > $global.getActiveEditorOptions().$cropbox_resize_minheight) ){
 
 				   	p.style.height = (startHeight + e.touches[0].clientY - startY) + 'px';
 
 				}
 
-			}else{
+			}else{				
 
-				if( ( (startWidth + e.clientX - startX) < $cropbox_resize_maxwidth ) && ( (startWidth + e.clientX - startX) > $cropbox_resize_minwidth) ){
+				if( ( (startWidth + e.clientX - startX) < $global.getActiveEditorOptions().$cropbox_resize_maxwidth ) && ( (startWidth + e.clientX - startX) > $global.getActiveEditorOptions().$cropbox_resize_minwidth) ){
 
 					p.style.width = (startWidth + e.clientX - startX) + 'px';
 
 			   	}
 
-			   	if( ( (startHeight + e.clientY - startY) < $cropbox_resize_maxheight ) && ( (startHeight + e.clientY - startY) > $cropbox_resize_minheight) ){
+			   	if( ( (startHeight + e.clientY - startY) < $global.getActiveEditorOptions().$cropbox_resize_maxheight ) && ( (startHeight + e.clientY - startY) > $global.getActiveEditorOptions().$cropbox_resize_minheight) ){
 
 				   	p.style.height = (startHeight + e.clientY - startY) + 'px';
 
@@ -1028,9 +1100,9 @@ function cnimage_editor($options){
 
 	this.displayImage = function($el,$base64){
 
-		var $base64 = ( $base64 != undefined ) ? $base64 : false;
+		var $base64 = ( $base64 != 'undefined' ) ? $base64 : false;
 		if( !$base64){
-			if ( $el.files == undefined && !$el.files[0] == undefined ) {
+			if ( $el.files == 'undefined' && !$el.files[0] == 'undefined' ) {
 				return false;
 			}
 		}
@@ -1088,8 +1160,8 @@ function cnimage_editor($options){
 
 			if( !$base64){
 
-			    let $x = ( this.width- $cropboxsave_width ) / 2;
-				let $y = ( this.height - $cropboxsave_height ) / 2;
+			    let $x = ( this.width- $global.getActiveEditorOptions().$cropboxsave_width ) / 2;
+				let $y = ( this.height - $global.getActiveEditorOptions().$cropboxsave_height ) / 2;
 
 				Caman(".image-editor.active canvas", function () {
 
@@ -1097,7 +1169,7 @@ function cnimage_editor($options){
 					if( !$autocrop ){
 						this.crop($img.width, $img.height,0,0);
 					}else{
-						this.crop($cropboxsave_width, $cropboxsave_height,$x,$y);
+						this.crop($global.getActiveEditorOptions().$cropboxsave_width, $global.getActiveEditorOptions().$cropboxsave_height,$x,$y);
 					}
 
 				    this.render(function(){
@@ -1650,7 +1722,6 @@ function cnimage_editor($options){
 	this.isHidden = function(el) {
 
 
-
 	    let style = window.getComputedStyle(el);
 
 	    return ((style.display === 'none') || (style.visibility === 'hidden'));
@@ -1659,7 +1730,7 @@ function cnimage_editor($options){
 
 
 
-	return this.init();
+	return this.init($options);
 
 
 

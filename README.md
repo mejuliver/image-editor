@@ -28,13 +28,18 @@ available options:
 	closeFunct : '< function name, to be run after the close button is clicked >',
 	height : '< initial height of the editor >',
 	width : '< initial width of the editor >',
-	cropbox_resize : '< true/false to enable resize capability on cropbox',
+	autocrop : { // default to false
+		width : <value>,
+		height : <value>
+	},
+	cropbox_resize : { // set to false to disable
+		minwidth : '< initial min width of the crop box >',
+		minheight : '< initial min height of the crop box >',
+		maxwidth : '< initial max width of the crop box >',
+		maxheight : '< initial max height of the crop box >',
+	},
 	cropbox_width : '< initial width of the crop box >',
 	cropbox_height : '< initial height of the crop box >',
-	resize_minwidth : '< initial min width of the crop box >',
-	resize_minheight : '< initial min height of the crop box >',
-	resize_maxwidth : '< initial max width of the crop box >',
-	resize_maxheight : '< initial max height of the crop box >',
 	autocrop : < true/false>, // automatically crop image base on crop width and height, default to false
 	imgcache : < true/false> // cache img if image was edited, default to false
 }
