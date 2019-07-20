@@ -15,8 +15,12 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
-					<div id="image-editor"></div><br>
-					<div id="image-editor2"></div><br>
+					<form action="server.php" id="form" method="post">
+						<div id="image-editor"></div><br>
+						<div id="image-editor2"></div><br>
+						<br>
+						<button>Submit</button>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -25,7 +29,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
 	<script src="assets/js/image-editor.js"></script>
-
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 	<script>
 		new cnimage_editor({
 			el : '#image-editor',
@@ -54,6 +58,57 @@
 			}
 			
 		});
+
+		$('#form').submit(function(e){
+
+			e.preventDefault();
+
+			var formdata = new FormData();
+
+			formdata.append('test','test contents');
+			formdata.append('file',base64tofile($(this).find('input.image_src').val()));
+
+			$.ajax({
+		       url: 'server.php',
+		       type: 'POST',
+		       data: formdata,
+		       async: false,
+		       cache: false,
+		       contentType: false,
+		       enctype: 'multipart/form-data',
+		       processData: false,
+		       success: function (res) {
+		         console.log(res)
+		       }
+		   });
+
+		});
+
+		function base64tofile(base64){
+
+			var mime = base64.split(';base64,')[0].split('data:')[1];
+			var base64 = base64.split(';base64,')[1];
+
+	        mime = mime || '';
+	        var sliceSize = 1024;
+	        var byteChars = window.atob(base64);
+	        var byteArrays = [];
+
+	        for (var offset = 0, len = byteChars.length; offset < len; offset += sliceSize) {
+	            var slice = byteChars.slice(offset, offset + sliceSize);
+
+	            var byteNumbers = new Array(slice.length);
+	            for (var i = 0; i < slice.length; i++) {
+	                byteNumbers[i] = slice.charCodeAt(i);
+	            }
+
+	            var byteArray = new Uint8Array(byteNumbers);
+
+	            byteArrays.push(byteArray);
+	        }
+
+	        return new Blob(byteArrays, {type: mime});
+		}
 
 	</script>
 </body>

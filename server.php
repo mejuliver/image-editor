@@ -1,4 +1,22 @@
 <?php
+	
+	
+	if( isset( $_FILES ) ){
+
+		if (move_uploaded_file($_FILES["file"]["tmp_name"], __DIR__.'/img/test.jpg')) {
+	        echo "The file has been uploaded.";
+	    } else {
+	        echo "Sorry, there was an error uploading your file.";
+	    }
+
+		header('content-type:application/json');
+
+		echo json_encode([ 'success' => true, 'msg' => 'Was uploaded' ]);
+
+		exit;
+	}
+
+	
 
 	function save_base64_image($base64_image_string, $output_file_without_extension, $path_with_end_slash="" ) {
 	    $splited = explode(',', substr( $base64_image_string , 5 ) , 2);
@@ -19,32 +37,31 @@
 	    return $output_file_with_extension;
 	}
 	
-	echo '<pre>';
-	foreach( $_POST['image'] as $img ){
-		if( $img['contents'] != '' ){
-			$id = $img['filename'];
-			save_base64_image($img['contents'], $id, __DIR__."/img/" );
-		}
-	}
+	// echo '<pre>';
+	// foreach( $_POST['image'] as $img ){
+	// 	if( $img['contents'] != '' ){
+	// 		$id = $img['filename'];
+	// 		save_base64_image($img['contents'], $id, __DIR__."/img/" );
+	// 	}
+	// }
 
-	echo '<a href="index.php">Go back to editor</a><br /><br />';
+	// echo '<a href="index.php">Go back to editor</a><br /><br />';
 
-	$files = glob("img/*.*");
-     for ($i=0; $i<count($files); $i++)
-      {
-        $image = $files[$i];
-        $supported_file = array(
-                'gif',
-                'jpg',
-                'jpeg',
-                'png'
-         );
+	// $files = glob("img/*.*");
+ // 	for ($i=0; $i<count($files); $i++)
+ //  	{
+ //    $image = $files[$i];
+ //    $supported_file = array(
+ //            'gif',
+ //            'jpg',
+ //            'jpeg',
+ //            'png'
+ //     );
 
-         $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-         if (in_array($ext, $supported_file)) {
-             echo '<img src="'.$image .'" alt="Random image" />'."<br /><br />";
-            } else {
-                continue;
-            }
-          }
-       ?>
+ //     $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+ //     if (in_array($ext, $supported_file)) {
+ //         echo '<img src="'.$image .'" alt="Random image" />'."<br /><br />";
+ //        } else {
+ //            continue;
+ //        }
+ //    }
