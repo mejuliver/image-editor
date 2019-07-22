@@ -149,7 +149,7 @@ function cnimage_editor($options){
 
 		if( $editor.querySelector('input.filetype') == null && $editor.querySelector('input.filename') == null && $editor.querySelector('input.image-src') == null ){			
 			// build editor structure
-			$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filetype]" class="filetype"><input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input type="hidden" name="file" class="file"><input class="file-browse" type="file" accept="image/x-png,image/jpeg,image/png" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
+			$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filetype]" class="filetype"><input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input class="file-browse" type="file" accept="image/x-png,image/jpeg,image/png" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
 			// -- end editor structure
 		}
 
@@ -396,31 +396,7 @@ function cnimage_editor($options){
 
 	}
 
-	this.base64ToBlob = function(base64, mime){
-
-        mime = mime || '';
-        var sliceSize = 1024;
-        var byteChars = window.atob(base64);
-        var byteArrays = [];
-
-        for (var offset = 0, len = byteChars.length; offset < len; offset += sliceSize) {
-            var slice = byteChars.slice(offset, offset + sliceSize);
-
-            var byteNumbers = new Array(slice.length);
-            for (var i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            var byteArray = new Uint8Array(byteNumbers);
-
-            byteArrays.push(byteArray);
-        }
-
-        return new Blob(byteArrays, {type: mime});
-
-    }
 	this.cropCanvas = function(){
-
 		if( document.querySelector('#image-editor-modal #crop-box') != null ){
 
 
@@ -611,13 +587,6 @@ function cnimage_editor($options){
 			    });
 
 			});
-
-			// save to objfile
-			var _mime = document.querySelector('.image-editor.active input.image_src').value.split(';base64,')[0].split('data:')[1];			
-			// --
-			document.querySelector('.image-editor.active input.file').value = $global.base64ToBlob(document.querySelector('.image-editor.active input.image_src').value.split(';base64,')[1],_mime);
-
-
 
 
 			if( $saveFunct ){
