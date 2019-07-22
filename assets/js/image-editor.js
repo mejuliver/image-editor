@@ -587,7 +587,9 @@ function cnimage_editor($options){
 			    });
 
 			});
-
+			
+			// set body to overflow auto
+			document.querySelector('body').style.overflowY = 'auto';
 
 			if( $saveFunct ){
 
