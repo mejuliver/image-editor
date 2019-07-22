@@ -1,5 +1,8 @@
 <?php
+	echo 1;
 
+	exit;
+	
 	function save_base64_image($base64_image_string, $output_file_without_extension, $path_with_end_slash="" ) {
 	    $splited = explode(',', substr( $base64_image_string , 5 ) , 2);
 	    $mime=$splited[0];
