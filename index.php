@@ -78,7 +78,7 @@
 		       enctype: 'multipart/form-data',
 		       processData: false,
 		       success: function (res) {
-		         console.log(res)
+		        	alert(res.msg);
 		       }
 		   });
 

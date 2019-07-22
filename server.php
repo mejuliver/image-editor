@@ -4,14 +4,12 @@
 	if( isset( $_FILES ) ){
 
 		if (move_uploaded_file($_FILES["file"]["tmp_name"], __DIR__.'/img/test.jpg')) {
-	        echo "The file has been uploaded.";
+	        header('content-type:application/json');
+			echo json_encode([ 'success' => true, 'msg' => 'Was uploaded' ]);
 	    } else {
-	        echo "Sorry, there was an error uploading your file.";
+	        header('content-type:application/json');
+			echo json_encode([ 'success' => false, 'msg' => 'Was not uploaded' ]);
 	    }
-
-		header('content-type:application/json');
-
-		echo json_encode([ 'success' => true, 'msg' => 'Was uploaded' ]);
 
 		exit;
 	}
