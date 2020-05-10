@@ -19,6 +19,7 @@ available options:
 {
 	el : '< element id >',
 	image_editor : '< true/false to disable image editing capability >',
+	auto_browse : '< true/false, default to false, open file browser after instance is created >
 	browseFunct : '< function name, to be run after the browse button is clicked >',
 	displayImageFunct : '< function name, to be run after display image was called >',
 	editFunct : '< function name, to be run after the edit button is clicked >',
@@ -40,7 +41,7 @@ available options:
 	},
 	cropbox_width : '< initial width of the crop box >',
 	cropbox_height : '< initial height of the crop box >',
-	autocrop : < true/false>, // automatically crop image base on crop width and height, default to false
-	imgcache : < true/false> // cache img if image was edited, default to false
+	autocrop : '< true/false>', // automatically crop image base on crop width and height, default to false
+	imgcache : '< true/false>' // cache img if image was edited, default to false
 }
 ```

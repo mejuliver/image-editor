@@ -2,48 +2,49 @@ import './style.scss';
 window.cnimage_editor = function($options){
 
 
-	const $storage = window.localStorage;
+	let $storage = window.localStorage;
 
-	const $editor = ( typeof $options != 'undefined' && typeof $options.el != 'undefined' ) ? document.querySelector($options.el) : false;
+	let $editor = ( typeof $options == 'object' && $options.hasOwnProperty('el') ) ? document.querySelector($options.el) : false;
 
-	const $image_editor = ( typeof $options != 'undefined' && typeof $options.image_editor != 'undefined' ) ? $options.image_editor : true;
+	let $ob = ( typeof $options == 'object' && $options.hasOwnProperty('auto_browse')  ) ? $options.auto_browse : false;
 
-	const $browseFunct = ( typeof $options != 'undefined' && typeof $options.browseFunct != 'undefined' ) ? $options.browseFunct : false;
+	let $image_editor = ( typeof $options == 'object' && $options.hasOwnProperty('image_editor') ) ? $options.image_editor : true;
 
-	const $displayImageFunct = ( typeof $options != 'undefined' && typeof $options.displayImageFunct != 'undefined' ) ? $options.displayImageFunct : false;
+	let $browseFunct = ( typeof $options == 'object' && $options.hasOwnProperty('browseFunct') && typeof $options.browseFunct == 'function' ) ? $options.browseFunct : false;
 
-	const $editFunct = ( typeof $options != 'undefined' && typeof $options.editFunct != 'undefined' ) ? $options.editFunct : false;
+	let $displayImageFunct = ( typeof $options == 'object' && $options.hasOwnProperty('displayImageFunct') && typeof $options.displayImageFunct == 'function' ) ? $options.displayImageFunct : false;
 
-	const $deleteFunct = ( typeof $options != 'undefined' && typeof $options.deleteFunct != 'undefined' ) ? $options.deleteFunct : false;
+	let $editFunct = ( typeof $options == 'object' && $options.hasOwnProperty('editFunct') && typeof $options.editFunct == 'function' ) ? $options.editFunct : false;
 
-	const $saveFunct = ( typeof $options != 'undefined' && typeof $options.saveFunct != 'undefined' ) ? $options.saveFunct : false;
+	let $deleteFunct = ( typeof $options == 'object' && $options.hasOwnProperty('deleteFunct') && typeof $options.deleteFunct == 'function' ) ? $options.deleteFunct : false;
 
-	const $resetFunct = ( typeof $options != 'undefined' && typeof $options.resetFunct != 'undefined' ) ? $options.resetFunct : false;
+	let $saveFunct = ( typeof $options == 'object' && $options.hasOwnProperty('saveFunct') && typeof $options.saveFunct == 'function' ) ? $options.saveFunct : false;
 
-	const $closeFunct = ( typeof $options != 'undefined' && typeof $options.closeFunct != 'undefined' ) ? $options.closeFunct : false;
+	let $resetFunct = ( typeof $options == 'object' && $options.hasOwnProperty('resetFunct') && typeof $options.resetFunct == 'function' ) ? $options.resetFunct : false;
 
-	const $global = this;
+	let $closeFunct = ( typeof $options == 'object' && $options.hasOwnProperty('closeFunct') && typeof $options.closeFunct == 'function' ) ? $options.closeFunct : false;
 
-	const $editor_width = ( typeof $options != 'undefined' && typeof $options.width != 'undefined' ) ? $options.width : 300;
+	let $global = this;
 
-	const $editor_height = ( typeof $options != 'undefined' && typeof $options.height != 'undefined' ) ? $options.height : 300;
+	let $editor_width = ( typeof $options == 'object' && $options.hasOwnProperty('width') ) ? $options.width : 300;
 
-	const $cropbox_width = ( typeof $options != 'undefined' && typeof $options.cropbox_width != 'undefined' ) ? $options.cropbox_width : 150;
-	const $cropbox_height = ( typeof $options != 'undefined' && typeof $options.cropbox_height != 'undefined' ) ? $options.cropbox_height : 150;
+	let $editor_height = ( typeof $options == 'object' && $options.hasOwnProperty('height') ) ? $options.height : 300;
 
-	const $cropbox_resize = ( typeof $options != 'undefined' && typeof $options.cropbox_resize != 'undefined' ) ? $options.cropbox_resize : true;
+	let $cropbox_width = ( typeof $options == 'object' && $options.hasOwnProperty('cropbox_width') ) ? $options.cropbox_width : 150;
+	let $cropbox_height = ( typeof $options == 'object' && $options.hasOwnProperty('cropbox_height') ) ? $options.cropbox_height : 150;
+	let $cropbox_resize = ( typeof $options == 'object' && $options.hasOwnProperty('cropbox_resize') ) ? $options.cropbox_resize : true;
 	
-	const $cropbox_resize_minwidth = ( typeof $options != 'undefined' && $cropbox_resize && typeof $options.cropbox_resize == 'object' && typeof $options.cropbox_resize.minwidth != 'undefined' ) ? $options.cropbox_resize.minwidth : 50;
-	const $cropbox_resize_minheight = ( typeof $options != 'undefined' && $cropbox_resize && typeof $options.cropbox_resize == 'object' && typeof $options.cropbox_resize.minheight != 'undefined' ) ? $options.cropbox_resize.minheight : 50;
-	const $cropbox_resize_maxwidth = ( typeof $options != 'undefined' && $cropbox_resize && typeof $options.cropbox_resize == 'object' && typeof $options.cropbox_resize.maxwidth != 'undefined' ) ? $options.cropbox_resize.maxwidth : 800;
-	const $cropbox_resize_maxheight = ( typeof $options != 'undefined' && $cropbox_resize && typeof $options.cropbox_resize == 'object' && typeof $options.cropbox_resize.maxheight != 'undefined' ) ? $options.cropbox_resize.maxheight : 800;
+	let $cropbox_resize_minwidth = ( typeof $options == 'object' && $cropbox_resize && $options.cropbox_resize.hasOwnProperty('minwidth') ) ? $options.cropbox_resize.minwidth : 50;
+	let $cropbox_resize_minheight = ( typeof $options == 'object' && $cropbox_resize && $options.cropbox_resize.hasOwnProperty('minheight') ) ? $options.cropbox_resize.minheight : 50;
+	let $cropbox_resize_maxwidth = ( typeof $options == 'object' && $cropbox_resize && $options.cropbox_resize.hasOwnProperty('maxwidth') ) ? $options.cropbox_resize.maxwidth : 800;
+	let $cropbox_resize_maxheight = ( typeof $options == 'object' && $cropbox_resize && $options.cropbox_resize.hasOwnProperty('maxheight') ) ? $options.cropbox_resize.maxheight : 800;
 
-	const $autocrop = ( typeof $options != 'undefined' && typeof $options.autocrop == 'object' ) ? $options.autocrop : false;
+	let $autocrop = ( typeof $options == 'object' && typeof $options.autocrop == 'object' ) ? $options.autocrop : false;
 
-	const $cropboxsave_width = ( $autocrop && typeof $options.autocrop == 'object' && typeof $options.autocrop.width != 'undefined' ) ? $options.autocrop.width : 50;
-	const $cropboxsave_height = ( $autocrop && typeof $options.autocrop == 'object' && typeof $options.autocrop.height != 'undefined' ) ? $options.autocrop.height : 50;
+	let $cropboxsave_width = ( $autocrop && typeof $options.autocrop == 'object' && $options.autocrop.hasOwnProperty('width') ) ? $options.autocrop.width : 50;
+	let $cropboxsave_height = ( $autocrop && typeof $options.autocrop == 'object' && $options.autocrop.hasOwnProperty('height') ) ? $options.autocrop.height : 50;
 
-	const $imgcache = ( typeof $options != 'undefined' && typeof $options.imgcache != 'undefined' ) ? $options.imgcache : false;
+	let $imgcache = ( typeof $options == 'object' && $options.hasOwnProperty('imgcache') ) ? $options.imgcache : false;
 
 	if( $imgcache && $storage == 'undefined' ){
 		console.log('Web Storage is not supported! image caching mechanism disabled');
@@ -61,14 +62,15 @@ window.cnimage_editor = function($options){
     	return;
     }
 
-    let _editordata = document.querySelector('body').getAttribute('data-imgeditor'),
-		_editor = {};
+    let _editordata = document.querySelector('body').getAttribute('data-imgeditor'),_editor = {};
 
 	if( _editordata ){
 		_editor = JSON.parse(_editordata);
 		_editor.push({
 			$el : $options.el,
+			$editor : $editor,
 			$image_editor : $image_editor,
+			$auto_browse : $ob,
 			$browseFunct : $browseFunct,
 			$displayImageFunct : $displayImageFunct,
 			$editFunct : $editFunct,
@@ -98,6 +100,7 @@ window.cnimage_editor = function($options){
 			$el : $options.el,
 			$editor : $editor,
 			$image_editor : $image_editor,
+			$auto_browse : $ob,
 			$browseFunct : $browseFunct,
 			$displayImageFunct : $displayImageFunct,
 			$editFunct : $editFunct,
@@ -150,7 +153,7 @@ window.cnimage_editor = function($options){
 
 		if( $editor.querySelector('input.filetype') == null && $editor.querySelector('input.filename') == null && $editor.querySelector('input.image-src') == null ){			
 			// build editor structure
-			$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filetype]" class="filetype"><input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input class="file-browse" type="file" accept="image/x-png,image/jpeg,image/png" style="display:none;"><div class="image-editor-tools"><a href="javascript:void(0);" class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a href="javascript:void(0);" class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a href="javascript:void(0);" class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
+			$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filetype]" class="filetype"><input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input class="file-browse" type="file" accept="image/x-png,image/jpeg,image/png" style="display:none;"><div class="image-editor-tools"><a class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
 			// -- end editor structure
 		}
 
@@ -195,7 +198,7 @@ window.cnimage_editor = function($options){
 
 			// run a custom delete function if theres one
 			if( $browseFunct ){
-				window[$browseFunct]();
+				$browseFunct(document.querySelector('.image-editor.active'));
 			}
 
 
@@ -226,6 +229,7 @@ window.cnimage_editor = function($options){
 				this.closest('.image-editor').classList.add('active');
 
 				document.querySelector('#image-editor-modal').style.display = 'block'; // show modal
+				document.querySelector('#image-editor-modal').classList.add('active');
 
 				if( $image_editor ){
 
@@ -249,7 +253,7 @@ window.cnimage_editor = function($options){
 
 			if( $editFunct ){
 
-				window[$editFunct](document.querySelector('.image-editor.active'));
+				$editFunct(document.querySelector('.image-editor.active'));
 
 			}
 
@@ -258,8 +262,6 @@ window.cnimage_editor = function($options){
 		});
 
 		// -- end edit button click event
-
-
 
 		// when click image editor delete
 
@@ -332,12 +334,9 @@ window.cnimage_editor = function($options){
 
 			if( $deleteFunct ){
 
-				window[$deleteFunct](document.querySelector('.image-editor.active'));
+				$deleteFunct(document.querySelector('.image-editor.active'));
 
 			}
-
-
-
 		});
 
 		// -- end image editor delete
@@ -345,7 +344,6 @@ window.cnimage_editor = function($options){
 
 
 		// editor file input change event
-
 		$editor.querySelector('input.file-browse').addEventListener('change',function(){
 
 
@@ -367,7 +365,6 @@ window.cnimage_editor = function($options){
 	            alert("Only jpg/jpeg and png files are allowed!");
 
 	        }   
-
 		});
 		// -- end editor input on change event
 
@@ -393,6 +390,10 @@ window.cnimage_editor = function($options){
 				$editor.querySelector('input.filename').value = _storage[_img].filename;
 				$editor.querySelector('input.image_src').value = _storage[_img].dataurl;
 			}
+		}
+
+		if( $ob ){
+			$editor.querySelector('.image-editor-browse').click();
 		}
 
 	}
@@ -441,7 +442,7 @@ window.cnimage_editor = function($options){
 
 		$el.setAttribute('id','image-editor-modal');
 
-		$el.innerHTML = '<div id="image-editor-body"><div id="image-editor-toolbox"> <ul class="p00 m00 list-style-none"> <li class="list-style-none align-left display-table toolbox-li"> <a href="javascript:void(0);" id="image-editor-modal-save" class="display-block toolbox m5"> <i class="fas fa-check mr5"></i>Save </a> </li><li class="list-style-none align-left display-table toolbox-li"> <a href="javascript:void(0);" id="image-editor-modal-close" class="display-block toolbox m5 toolbox-dp-trigger"> <i class="fas fa-times mr5"></i>Cancel </a> </li><li class="list-style-none align-left display-table toolbox-li"> <a href="javascript:void(0);" id="image-editor-modal-reset" class="display-block toolbox m5 toolbox-dp-trigger"> <i class="fas fa-sync mr5"></i>Reset </a> </li><li class="list-style-none align-left display-table toolbox-li"> <a href="javascript:void(0);" class="display-block toolbox m5 toolbox-dp-trigger"> <i class="fas fa-magic mr5"></i>Adjust </a> <div class="toolbox-sub bg-white box-shadow"> <ul class="p00 m00"> <li class="filter-slider"> <label class="full-width display-block">Brightness <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="brightness"> </li><li class="filter-slider"> <label class="full-width display-block">Contrast <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="contrast"> </li><li class="filter-slider"> <label class="full-width display-block">Saturation <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="saturation"> </li><li class="filter-slider"> <label class="full-width display-block">Vibrance <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="vibrance"> </li><li class="filter-slider"> <label class="full-width display-block">Exposure <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="exposure"> </li><li class="filter-slider"> <label class="full-width display-block">Clip <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="clip"> </li><li class="filter-slider"> <label class="full-width display-block">Hue <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="hue"> </li><li class="filter-slider"> <label class="full-width display-block">Sepia <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="sepia"> </li><li class="filter-slider"> <label class="full-width display-block">Noise <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="noise"> </li><li class="filter-slider"> <label class="full-width display-block">Sharpen <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="sharpen"> </li><li class="filter-slider"> <label class="full-width display-block">StackBlur <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="stackBlur"> </li></ul> </div></li><li class="list-style-none align-left display-table toolbox-li"> <a href="javascript:void(0);" class="display-block toolbox m5 toolbox-dp-trigger"> <i class="fas fa-magic mr5"></i>Presets </a> <div class="toolbox-sub bg-white box-shadow"> <ul class="p00 m00" id="image-editor-presets"> <li> <a href="javascript:void(0);" data-preset="vintage">Vintage</a></li><li> <a href="javascript:void(0);" data-preset="lomo">Lomo</a></li><li> <a href="javascript:void(0);" data-preset="clarity">Clarity</a></li><li> <a href="javascript:void(0);" data-preset="sinCity">Sin City</a></li><li> <a href="javascript:void(0);" data-preset="sunrise">Sunrise</a></li><li> <a href="javascript:void(0);" data-preset="crossProcess">Cross Process</a></li><li> <a href="javascript:void(0);" data-preset="orangePeel">Orange Peel</a></li><li> <a href="javascript:void(0);" data-preset="love">Love</a></li><li> <a href="javascript:void(0);" data-preset="grungy">Grungy</a></li><li> <a href="javascript:void(0);" data-preset="jarques">Jarques</a></li><li> <a href="javascript:void(0);" data-preset="pinhole">Pinhole</a></li><li> <a href="javascript:void(0);" data-preset="oldBoot">Old Boot</a></li><li> <a href="javascript:void(0);" data-preset="glowingSun">Glowing Sun</a></li><li> <a href="javascript:void(0);" data-preset="hazyDays">Hazy Days</a></li><li> <a href="javascript:void(0);" data-preset="herMajesty">Her Majesty</a></li><li> <a href="javascript:void(0);" data-preset="nostalgia">Nostalgia</a></li><li> <a href="javascript:void(0);" data-preset="hemingway">Hemingway</a></li><li> <a href="javascript:void(0);" data-preset="concentrate">concentrate</a></li></ul> </div></li><li class="list-style-none align-left display-table toolbox-li"> <a href="javascript:void(0);" class="display-block toolbox m5"> <i class="fas fa-expand-arrows-alt mr5"></i>Resize </a> <div class="toolbox-sub bg-white box-shadow"><div class="col-xs-6 mb5 pl3 pr3"><label class="full-width display-block">Width:</label><input type="number" class="mb00" id="resize-width" name="resize_width"></div><div class="col-xs-6 mb5 pl3 pr3"><label class="full-width display-block">Height:</label><input type="number" class="mb00" id="resize-height" name="resize_height"></div><div class="col-xs-12 col-sm-12 mt8 pl3 pr3"><a href="javascript:void(0);" class="btn btn-block btn-sm btn-filled mb8" id="resize-save">Resize</a></div></div></li><li class="list-style-none align-left display-table toolbox-li"> <a href="javascript:void(0);" id="image-editor-crop" class="display-block toolbox m5"> <i class="fas fa-crop-alt mr5"></i>Crop </a> </li><li class="list-style-none align-left display-table toolbox-li" style="display:none"> <a href="javascript:void(0);" id="image-editor-crop-now" class="bg-success display-block toolbox m5"> <i class="fas fa-check mr5"></i>Crop </a> </li><li class="list-style-none align-left display-table toolbox-li"> <a href="javascript:void(0);" id="image-editor-rotate" class="display-block toolbox m5"> <i class="fas fa-undo mr5"></i>Rotate </a> <div class="toolbox-sub bg-white box-shadow"> <ul class="p00 m00" id="image-editor-rotate"> <li> <a href="javascript:void(0);" data-rotate="cw">Clock wise</a></li><li> <a href="javascript:void(0);" data-rotate="ccw">Counter clock wise</a></li></ul></div></li></ul></div><div id="image-editor-canvas"><div id="canvas-holder" width=""></div></div></div>';
+		$el.innerHTML = '<div id="image-editor-body"><div id="image-editor-toolbox"> <ul class="p00 m00 list-style-none"> <li class="list-style-none align-left display-table toolbox-li"> <a id="image-editor-modal-save" class="display-block toolbox m5"> <i class="fas fa-check mr5"></i>Save </a> </li><li class="list-style-none align-left display-table toolbox-li"> <a id="image-editor-modal-close" class="display-block toolbox m5 toolbox-dp-trigger"> <i class="fas fa-times mr5"></i>Cancel </a> </li><li class="list-style-none align-left display-table toolbox-li"> <a id="image-editor-modal-reset" class="display-block toolbox m5 toolbox-dp-trigger"> <i class="fas fa-sync mr5"></i>Reset </a> </li><li class="list-style-none align-left display-table toolbox-li"> <a class="display-block toolbox m5 toolbox-dp-trigger"> <i class="fas fa-magic mr5"></i>Adjust </a> <div class="toolbox-sub bg-white box-shadow"> <ul class="p00 m00"> <li class="filter-slider"> <label class="full-width display-block">Brightness <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="brightness"> </li><li class="filter-slider"> <label class="full-width display-block">Contrast <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="contrast"> </li><li class="filter-slider"> <label class="full-width display-block">Saturation <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="saturation"> </li><li class="filter-slider"> <label class="full-width display-block">Vibrance <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="vibrance"> </li><li class="filter-slider"> <label class="full-width display-block">Exposure <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="exposure"> </li><li class="filter-slider"> <label class="full-width display-block">Clip <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="clip"> </li><li class="filter-slider"> <label class="full-width display-block">Hue <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="hue"> </li><li class="filter-slider"> <label class="full-width display-block">Sepia <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="sepia"> </li><li class="filter-slider"> <label class="full-width display-block">Noise <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="noise"> </li><li class="filter-slider"> <label class="full-width display-block">Sharpen <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="sharpen"> </li><li class="filter-slider"> <label class="full-width display-block">StackBlur <span class="filter-range">0</span></label> <input type="range" min="-100" max="100" value="0" class="slider filter-range-input mb5" data-filter="stackBlur"> </li></ul> </div></li><li class="list-style-none align-left display-table toolbox-li"> <a class="display-block toolbox m5 toolbox-dp-trigger"> <i class="fas fa-magic mr5"></i>Presets </a> <div class="toolbox-sub bg-white box-shadow"> <ul class="p00 m00" id="image-editor-presets"> <li> <a data-preset="vintage">Vintage</a></li><li> <a data-preset="lomo">Lomo</a></li><li> <a data-preset="clarity">Clarity</a></li><li> <a data-preset="sinCity">Sin City</a></li><li> <a data-preset="sunrise">Sunrise</a></li><li> <a data-preset="crossProcess">Cross Process</a></li><li> <a data-preset="orangePeel">Orange Peel</a></li><li> <a data-preset="love">Love</a></li><li> <a data-preset="grungy">Grungy</a></li><li> <a data-preset="jarques">Jarques</a></li><li> <a data-preset="pinhole">Pinhole</a></li><li> <a data-preset="oldBoot">Old Boot</a></li><li> <a data-preset="glowingSun">Glowing Sun</a></li><li> <a data-preset="hazyDays">Hazy Days</a></li><li> <a data-preset="herMajesty">Her Majesty</a></li><li> <a data-preset="nostalgia">Nostalgia</a></li><li> <a data-preset="hemingway">Hemingway</a></li><li> <a data-preset="concentrate">concentrate</a></li></ul> </div></li><li class="list-style-none align-left display-table toolbox-li"> <a class="display-block toolbox m5"> <i class="fas fa-expand-arrows-alt mr5"></i>Resize </a> <div class="toolbox-sub bg-white box-shadow"><div class="col-xs-6 mb5 pl3 pr3"><label class="full-width display-block">Width:</label><input type="number" class="mb00" id="resize-width" name="resize_width"></div><div class="col-xs-6 mb5 pl3 pr3"><label class="full-width display-block">Height:</label><input type="number" class="mb00" id="resize-height" name="resize_height"></div><div class="col-xs-12 col-sm-12 mt8 pl3 pr3"><a class="btn btn-block btn-sm btn-filled mb8" id="resize-save">Resize</a></div></div></li><li class="list-style-none align-left display-table toolbox-li"> <a id="image-editor-crop" class="display-block toolbox m5"> <i class="fas fa-crop-alt mr5"></i>Crop </a> </li><li class="list-style-none align-left display-table toolbox-li" style="display:none"> <a id="image-editor-crop-now" class="bg-success display-block toolbox m5"> <i class="fas fa-check mr5"></i>Crop </a> </li><li class="list-style-none align-left display-table toolbox-li"> <a id="image-editor-rotate" class="display-block toolbox m5"> <i class="fas fa-undo mr5"></i>Rotate </a> <div class="toolbox-sub bg-white box-shadow"> <ul class="p00 m00" id="image-editor-rotate"> <li> <a data-rotate="cw">Clock wise</a></li><li> <a data-rotate="ccw">Counter clock wise</a></li></ul></div></li></ul></div><div id="image-editor-canvas"><div id="canvas-holder" width=""></div></div></div>';
 
 
 
@@ -458,6 +459,7 @@ window.cnimage_editor = function($options){
 			e.preventDefault();
 
 			document.querySelector('#image-editor-modal').style.display = 'none';
+			document.querySelector('#image-editor-modal').classList.remove('active');
 
 			document.querySelector('#image-editor-modal canvas').style.display = 'none';
 
@@ -467,7 +469,7 @@ window.cnimage_editor = function($options){
 
 			if( $closeFunct ){
 
-				window[$closeFunct]();
+				$closeFunct(document.querySelector('.image-editor.active'));
 
 			}
 
@@ -509,6 +511,7 @@ window.cnimage_editor = function($options){
 
 
 			    	document.querySelector('#image-editor-modal').style.display = 'none';
+			    	document.querySelector('#image-editor-modal').classList.remove('active');
 
 			    	if( document.querySelector('.image-editor.active canvas') != null ){
 
@@ -594,7 +597,7 @@ window.cnimage_editor = function($options){
 
 			if( $saveFunct ){
 
-				window[$saveFunct](document.querySelector('.image-editor.active'));
+				$saveFunct(document.querySelector('.image-editor.active'));
 
 			}
 
@@ -735,7 +738,7 @@ window.cnimage_editor = function($options){
 
 			if( $resetFunct ){
 
-				window[$resetFunct](document.querySelector('.image-editor.active'));
+				$resetFunct(document.querySelector('.image-editor.active'));
 
 			}
 
@@ -919,7 +922,7 @@ window.cnimage_editor = function($options){
 
 		}else{
 
-			return false;
+				return false;
 
 		}
 
@@ -1185,7 +1188,7 @@ window.cnimage_editor = function($options){
 				    });
 
 				    if( $displayImageFunct ){
-						window[$displayImageFunct](document.querySelector('.image-editor.active'));
+						$displayImageFunct(document.querySelector('.image-editor.active'));
 					}
 
 				});
@@ -1298,7 +1301,11 @@ window.cnimage_editor = function($options){
 
 			el.innerHTML = '<img src="'+$el+'">';
 
-			document.querySelector('body').style.overflowY = 'hidden';
+			if( document.querySelector('#image-editor-modal').classList.contains('active')){
+
+				document.querySelector('body').style.overflowY = 'hidden';
+
+			}
 
 			document.querySelector('body').appendChild(el);
 
@@ -1317,7 +1324,9 @@ window.cnimage_editor = function($options){
 
 				el.innerHTML = '<img src="'+e.target.result+'">';
 
-				document.querySelector('body').style.overflowY = 'hidden';
+				if( document.querySelector('#image-editor-modal').classList.contains('active')){
+					document.querySelector('body').style.overflowY = 'hidden';
+				}
 
 				document.querySelector('body').appendChild(el);
 
