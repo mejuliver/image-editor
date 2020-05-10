@@ -166,9 +166,12 @@
 	position:relative;
 }
 .image-editor-preview{
-	display: block;
+	display: flex;
     position: relative;
-    overflow: hidden;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 #clone-img{
 	visibility:hidden;
