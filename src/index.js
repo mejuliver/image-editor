@@ -527,7 +527,7 @@ window.cnimage_editor = function($options){
 
 			    	var el = document.createElement('canvas');
 
-			    	document.querySelector('.image-editor.active').appendChild(el);
+			    	document.querySelector('.image-editor.active .image-editor-preview').appendChild(el);
 
 			    	if( document.querySelector('.image-editor.active img') != null ){
 
