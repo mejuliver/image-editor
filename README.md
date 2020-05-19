@@ -20,7 +20,7 @@ available options:
 	el : '< element id >',
 	image_editor : '< true/false to disable image editing capability >',
 	auto_browse : '< true/false, default to false, open file browser after instance is created >
-	browseFunct : '< function name, to be run after the browse button is clicked >',
+	browseFunct : '< a function to be called once selecting file completed, passing the value of the file browser >',
 	displayImageFunct : '< function name, to be run after display image was called >',
 	editFunct : '< function name, to be run after the edit button is clicked >',
 	deleteFunct : '< function name, to be run after the delete button is clicked >',
@@ -29,7 +29,7 @@ available options:
 	closeFunct : '< function name, to be run after the close button is clicked >',
 	height : '< initial height of the editor >',
 	width : '< initial width of the editor >',
-	autocrop : { // default to false
+	autocrop : { // automatically crop image base on crop width and height, default to false
 		width : <value>,
 		height : <value>
 	},
@@ -41,7 +41,6 @@ available options:
 	},
 	cropbox_width : '< initial width of the crop box >',
 	cropbox_height : '< initial height of the crop box >',
-	autocrop : '< true/false>', // automatically crop image base on crop width and height, default to false
 	imgcache : '< true/false>' // cache img if image was edited, default to false
 }
 ```

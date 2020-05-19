@@ -130,7 +130,7 @@ window.cnimage_editor = function($options){
 	document.querySelector('body').setAttribute('data-imgeditor',JSON.stringify(_editor) );
 
 
-	this.init = function(){		
+	this.init = function(){
 
 		if( document.querySelector('#image-editor-modal') == null && $image_editor ){
 			this.initModalEditor();
@@ -194,12 +194,6 @@ window.cnimage_editor = function($options){
 			this.closest('.image-editor').classList.add('active');
 
 			$editor.querySelector('input.file-browse').click();
-
-
-			// run a custom delete function if theres one
-			if( $browseFunct ){
-				$browseFunct(document.querySelector('.image-editor.active'));
-			}
 
 
 		});
@@ -345,6 +339,16 @@ window.cnimage_editor = function($options){
 
 		// editor file input change event
 		$editor.querySelector('input.file-browse').addEventListener('change',function(){
+
+			if( $browseFunct ){
+				$browseFunct(this.value);
+			}
+
+			if( this.value == '' ){
+
+				return;
+
+			}
 
 
 			var idxDot = this.value.lastIndexOf(".") + 1;
