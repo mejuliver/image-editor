@@ -151,7 +151,7 @@ window.cnimage_editor = function($options){
 
 		$editor.setAttribute('data-index',$id);
 
-		if( $editor.querySelector('input.filetype') == null && $editor.querySelector('input.filename') == null && $editor.querySelector('input.image-src') == null ){			
+		if( $editor.querySelector('input.filetype') == null && $editor.querySelector('input.filename') == null && $editor.querySelector('input.image_src') == null ){			
 			// build editor structure
 			$editor.innerHTML = '<input type="hidden" name="image['+$id+'][filetype]" class="filetype"><input type="hidden" name="image['+$id+'][filename]" class="filename"><input type="hidden" name="image['+$id+'][contents]" class="image_src"><input class="file-browse" type="file" accept="image/x-png,image/jpeg,image/png" style="display:none;"><div class="image-editor-tools"><a class="image-editor-browse flex-center radius-5"><i class="fas fa-plus"></i></a><a class="image-editor-edit flex-center radius-5"><i class="fas fa-magic"></i></a><a class="image-editor-delete flex-center radius-5"><i class="far fa-trash-alt"></i></a></div><div class="image-editor-preview"></div>';
 			// -- end editor structure
