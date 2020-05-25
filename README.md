@@ -44,3 +44,5 @@ available options:
 	imgcache : '< true/false>' // cache img if image was edited, default to false
 }
 ```
+
+if you want to set a default image, you can do so by adding a 'data-default-img' attribute with the link of the image source

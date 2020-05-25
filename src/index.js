@@ -176,6 +176,11 @@ window.cnimage_editor = function($options){
 			$editor.querySelector('.image-editor-delete').style.display = 'none';
 		}
 
+		if( $editor.hasAttribute('data-default-img') ){
+			$editor.querySelector('.image-editor-preview').innerHTML = '<img src="'+$editor.getAttribute('data-default-img')+'">';
+			$editor.querySelector('.image-editor-delete').style = 'block';
+		}
+
 		// browse button click event
 
 		$editor.querySelector('.image-editor-browse').addEventListener('click',function(e){
