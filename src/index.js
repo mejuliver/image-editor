@@ -10,19 +10,19 @@ window.cnimage_editor = function($options){
 
 	let $image_editor = ( typeof $options == 'object' && $options.hasOwnProperty('image_editor') ) ? $options.image_editor : true;
 
-	let $browseFunct = ( typeof $options == 'object' && $options.hasOwnProperty('browseFunct') && typeof $options.browseFunct == 'function' ) ? $options.browseFunct : false;
+	let $on_browse = ( typeof $options == 'object' && $options.hasOwnProperty('on_browse') && typeof $options.on_browse == 'function' ) ? $options.on_browse : false;
 
-	let $displayImageFunct = ( typeof $options == 'object' && $options.hasOwnProperty('displayImageFunct') && typeof $options.displayImageFunct == 'function' ) ? $options.displayImageFunct : false;
+	let $on_display = ( typeof $options == 'object' && $options.hasOwnProperty('on_display') && typeof $options.on_display == 'function' ) ? $options.on_display : false;
 
-	let $editFunct = ( typeof $options == 'object' && $options.hasOwnProperty('editFunct') && typeof $options.editFunct == 'function' ) ? $options.editFunct : false;
+	let $on_edit = ( typeof $options == 'object' && $options.hasOwnProperty('on_edit') && typeof $options.on_edit == 'function' ) ? $options.on_edit : false;
 
-	let $deleteFunct = ( typeof $options == 'object' && $options.hasOwnProperty('deleteFunct') && typeof $options.deleteFunct == 'function' ) ? $options.deleteFunct : false;
+	let $on_delete = ( typeof $options == 'object' && $options.hasOwnProperty('on_delete') && typeof $options.on_delete == 'function' ) ? $options.on_delete : false;
 
-	let $saveFunct = ( typeof $options == 'object' && $options.hasOwnProperty('saveFunct') && typeof $options.saveFunct == 'function' ) ? $options.saveFunct : false;
+	let $on_save = ( typeof $options == 'object' && $options.hasOwnProperty('on_save') && typeof $options.on_save == 'function' ) ? $options.on_save : false;
 
-	let $resetFunct = ( typeof $options == 'object' && $options.hasOwnProperty('resetFunct') && typeof $options.resetFunct == 'function' ) ? $options.resetFunct : false;
+	let $on_reset = ( typeof $options == 'object' && $options.hasOwnProperty('on_reset') && typeof $options.on_reset == 'function' ) ? $options.on_reset : false;
 
-	let $closeFunct = ( typeof $options == 'object' && $options.hasOwnProperty('closeFunct') && typeof $options.closeFunct == 'function' ) ? $options.closeFunct : false;
+	let $on_close = ( typeof $options == 'object' && $options.hasOwnProperty('on_close') && typeof $options.on_close == 'function' ) ? $options.on_close : false;
 
 	let $global = this;
 
@@ -71,13 +71,13 @@ window.cnimage_editor = function($options){
 			$editor : $editor,
 			$image_editor : $image_editor,
 			$auto_browse : $ob,
-			$browseFunct : $browseFunct,
-			$displayImageFunct : $displayImageFunct,
-			$editFunct : $editFunct,
-			$deleteFunct : $deleteFunct,
-			$saveFunct : $saveFunct,
-			$resetFunct : $resetFunct,
-			$closeFunct : $closeFunct,
+			$on_browse : $on_browse,
+			$on_display : $on_display,
+			$on_edit : $on_edit,
+			$on_delete : $on_delete,
+			$on_save : $on_save,
+			$on_reset : $on_reset,
+			$on_close : $on_close,
 			$editor_width : $editor_width,
 			$editor_height : $editor_height,
 			$cropbox_width : $cropbox_width,
@@ -101,13 +101,13 @@ window.cnimage_editor = function($options){
 			$editor : $editor,
 			$image_editor : $image_editor,
 			$auto_browse : $ob,
-			$browseFunct : $browseFunct,
-			$displayImageFunct : $displayImageFunct,
-			$editFunct : $editFunct,
-			$deleteFunct : $deleteFunct,
-			$saveFunct : $saveFunct,
-			$resetFunct : $resetFunct,
-			$closeFunct : $closeFunct,
+			$on_browse : $on_browse,
+			$on_display : $on_display,
+			$on_edit : $on_edit,
+			$on_delete : $on_delete,
+			$on_save : $on_save,
+			$on_reset : $on_reset,
+			$on_close : $on_close,
 			$editor_width : $editor_width,
 			$editor_height : $editor_height,
 			$cropbox_width : $cropbox_width,
@@ -130,7 +130,7 @@ window.cnimage_editor = function($options){
 	document.querySelector('body').setAttribute('data-imgeditor',JSON.stringify(_editor) );
 
 
-	this.init = function(){		
+	this.init = function(){
 
 		if( document.querySelector('#image-editor-modal') == null && $image_editor ){
 			this.initModalEditor();
@@ -196,12 +196,6 @@ window.cnimage_editor = function($options){
 			$editor.querySelector('input.file-browse').click();
 
 
-			// run a custom delete function if theres one
-			if( $browseFunct ){
-				$browseFunct(document.querySelector('.image-editor.active'));
-			}
-
-
 		});
 
 		// -- end browse button click event
@@ -251,9 +245,9 @@ window.cnimage_editor = function($options){
 
 			// run a custom delete function if theres one
 
-			if( $editFunct ){
+			if( $on_edit ){
 
-				$editFunct(document.querySelector('.image-editor.active'));
+				$on_edit(document.querySelector('.image-editor.active'));
 
 			}
 
@@ -332,9 +326,9 @@ window.cnimage_editor = function($options){
 
 			// run a custom delete function if theres one
 
-			if( $deleteFunct ){
+			if( $on_delete ){
 
-				$deleteFunct(document.querySelector('.image-editor.active'));
+				$on_delete(document.querySelector('.image-editor.active'));
 
 			}
 		});
@@ -345,6 +339,16 @@ window.cnimage_editor = function($options){
 
 		// editor file input change event
 		$editor.querySelector('input.file-browse').addEventListener('change',function(){
+
+			if( $on_browse ){
+				$on_browse(this.value);
+			}
+
+			if( this.value == '' ){
+
+				return;
+
+			}
 
 
 			var idxDot = this.value.lastIndexOf(".") + 1;
@@ -467,9 +471,9 @@ window.cnimage_editor = function($options){
 
 			$global.reset();
 
-			if( $closeFunct ){
+			if( $on_close ){
 
-				$closeFunct(document.querySelector('.image-editor.active'));
+				$on_close(document.querySelector('.image-editor.active'));
 
 			}
 
@@ -595,9 +599,9 @@ window.cnimage_editor = function($options){
 			// set body to overflow auto
 			document.querySelector('body').style.overflowY = 'auto';
 
-			if( $saveFunct ){
+			if( $on_save ){
 
-				$saveFunct(document.querySelector('.image-editor.active'));
+				$on_save(document.querySelector('.image-editor.active'));
 
 			}
 
@@ -736,9 +740,9 @@ window.cnimage_editor = function($options){
 
 			$global.reset();
 
-			if( $resetFunct ){
+			if( $on_reset ){
 
-				$resetFunct(document.querySelector('.image-editor.active'));
+				$on_reset(document.querySelector('.image-editor.active'));
 
 			}
 
@@ -1187,8 +1191,8 @@ window.cnimage_editor = function($options){
 
 				    });
 
-				    if( $displayImageFunct ){
-						$displayImageFunct(document.querySelector('.image-editor.active'));
+				    if( $on_display ){
+						$on_display(document.querySelector('.image-editor.active'));
 					}
 
 				});
