@@ -597,20 +597,17 @@ window.cnimage_editor = function($options){
 						}
 					}
 
+					if( $on_save ){
+						$on_save(document.querySelector('.image-editor.active'));
+
+					}
+
 			    });
 
 			});
 			
 			// set body to overflow auto
 			document.querySelector('body').style.overflowY = 'auto';
-
-			if( $on_save ){
-
-				$on_save(document.querySelector('.image-editor.active'));
-
-			}
-
-
 
 		});
 
