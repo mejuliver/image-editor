@@ -8,6 +8,8 @@ window.cnimage_editor = function($options){
 
 	let $ob = ( typeof $options == 'object' && $options.hasOwnProperty('auto_browse')  ) ? $options.auto_browse : false;
 
+	let $on_created = ( typeof $options == 'object' && $options.hasOwnProperty('on_created')  ) ? $options.on_created : false;
+
 	let $image_editor = ( typeof $options == 'object' && $options.hasOwnProperty('image_editor') ) ? $options.image_editor : true;
 
 	let $on_browse = ( typeof $options == 'object' && $options.hasOwnProperty('on_browse') && typeof $options.on_browse == 'function' ) ? $options.on_browse : false;
@@ -206,7 +208,6 @@ window.cnimage_editor = function($options){
 		// -- end browse button click event
 
 
-
 		// editor edit button click event
 
 		$editor.querySelector('.image-editor-edit').addEventListener('click',function(e){
@@ -399,6 +400,10 @@ window.cnimage_editor = function($options){
 				$editor.querySelector('input.filename').value = _storage[_img].filename;
 				$editor.querySelector('input.image_src').value = _storage[_img].dataurl;
 			}
+		}
+
+		if( $on_created ){
+			$on_created($editor);
 		}
 
 		if( $ob ){

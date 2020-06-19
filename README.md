@@ -41,7 +41,8 @@ available options:
 	},
 	cropbox_width : '< initial width of the crop box >',
 	cropbox_height : '< initial height of the crop box >',
-	imgcache : '< true/false>' // cache img if image was edited, default to false
+	imgcache : '< true/false>', // cache img if image was edited, default to false
+	on_created : <function callback> // called once an editor has been created, passing the whole instance
 }
 ```
 
