@@ -269,6 +269,16 @@ window.cnimage_editor = function($options){
 
 			e.preventDefault();
 
+			// run a custom delete function if theres one and only if return true
+
+			if( $on_delete ){
+
+				if( !$on_delete(document.querySelector('.image-editor.active')) ){
+					return;
+				}
+
+			}
+
 
 			let $active_editor = document.querySelector('.image-editor.active');
 
@@ -328,14 +338,6 @@ window.cnimage_editor = function($options){
 
 					$storage.setItem('imgeditorcachedb',JSON.stringify(_storage));
 				}
-			}
-
-			// run a custom delete function if theres one
-
-			if( $on_delete ){
-
-				$on_delete(document.querySelector('.image-editor.active'));
-
 			}
 		});
 
